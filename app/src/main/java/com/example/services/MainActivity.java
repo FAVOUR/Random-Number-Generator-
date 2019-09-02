@@ -2,6 +2,7 @@ package com.example.services;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +38,17 @@ public class MainActivity extends AppCompatActivity {
                 Intent serviceIntent = new Intent(MainActivity.this,MyService.class);
 
                 startService(serviceIntent);
+            }
+        });
+
+
+        stopService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent serviceIntent = new Intent(MainActivity.this,MyService.class);
+
+
+                stopService(serviceIntent);
             }
         });
 
