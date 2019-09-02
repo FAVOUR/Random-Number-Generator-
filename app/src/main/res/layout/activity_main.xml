@@ -33,15 +33,6 @@
         android:layout_margin="20dp"
         android:text="Stop Service " />
 
-    <Button
-        android:id="@+id/getRandomNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:text="Start Service "
-        />
-
-
 
 
     <Button
@@ -60,6 +51,13 @@
         android:text="Stop Service " />
 
 
+    <Button
+        android:id="@+id/getRandomNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Start Service "
+        />
 
 
 </LinearLayout>
