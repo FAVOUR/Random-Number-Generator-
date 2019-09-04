@@ -101,8 +101,8 @@ public class MyService extends Service {
         return randomNumber;
     }
 
-    private class MyServiceIbinder extends Binder {
-        private  MyService getMyServiceBinder(){
+     class MyServiceIbinder extends Binder {
+          MyService getMyServiceBinder(){
            return  MyService.this;
         }
     }

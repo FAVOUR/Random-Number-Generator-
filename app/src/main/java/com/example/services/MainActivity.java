@@ -2,10 +2,12 @@ package com.example.services;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -24,8 +26,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView display;
 
     MyService myService;
-    private Boolean isServiceBound;
+    private Boolean isServiceBound=false;
     ServiceConnection serviceConnection;
+    Intent serviceIntent;
 
 
 
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          unbindService.setOnClickListener(this);
          randomNumber.setOnClickListener(this);
 
+         serviceIntent = new Intent(MainActivity.this,MyService.class);
 
 
     }
@@ -60,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Intent serviceIntent = new Intent(MainActivity.this,MyService.class);
 
         switch (view.getId()){
             case R.id.start_service:{
@@ -73,21 +76,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             break ;
             case R.id.bind:{
+                bindService();
 
             }
             break ;
             case R.id.unbind:{
+                unBindService();
 
             }
             break ;
             case R.id.getRandomNumber:{
-
+                getRandomNumber();
             }
             break ;
 
             default:
                 Toast.makeText(this,"You have selected Nothing ",Toast.LENGTH_SHORT).show();
 
+        }
+    }
+
+    private void bindService(){
+         if(serviceConnection == null){
+             serviceConnection =new ServiceConnection() {
+                 @Override
+                 public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                     MyService.MyServiceIbinder mybindService =(MyService.MyServiceIbinder)iBinder;
+                     myService=mybindService.getMyServiceBinder();
+
+                      isServiceBound=true;
+                 }
+
+                 @Override
+                 public void onServiceDisconnected(ComponentName componentName) {
+                      isServiceBound =false;
+                 }
+
+             };
+         }
+         bindService(serviceIntent,serviceConnection,Context.BIND_AUTO_CREATE);
+    }
+
+    private void unBindService(){
+        if(isServiceBound){
+            unbindService(serviceConnection);
+            isServiceBound =false;
+
+
+        }
+    }
+
+    private void getRandomNumber(){
+        if(isServiceBound){
+            display.setText("Random Number : " + myService.getRandomNumber());
+        }else {
+            display.setText("Service has not been bound ");
         }
     }
 }
